@@ -1,0 +1,60 @@
+def is_valid(board,row,col,num):
+   #Checkif thenumberisalreadypresent intherow
+   ifnuminboard[row]:
+       returnFalse
+   
+   #Checkif thenumberisalreadypresent inthecolumn
+   fori inrange(9):
+       ifboard[i][col]==num:
+           returnFalse
+   
+   #Checkif thenumberisalreadypresent inthe3x3subgrid
+   start_row,start_col=3*(row//3),3*(col //3)
+   fori inrange(3):
+       forj inrange(3):
+           ifboard[start_row+i][start_col+j]==num:
+               returnFalse
+   
+   returnTrue
+ defsolve_sudoku(board):
+   empty_cell=find_empty_cell(board)
+   ifnotempty_cell:
+       returnTrue #Puzzlesolved
+   
+   row,col=empty_cell
+   fornuminrange(1,10):
+       if is_valid(board,row,col,num):
+           board[row][col]=num
+           ifsolve_sudoku(board):
+               returnTrue
+           board[row][col]=0 #Backtrack
+   returnFalse
+ def find_empty_cell(board):
+   fori inrange(9):
+       forj inrange(9):
+           ifboard[i][j]==0:
+               return(i, j)
+   returnNone
+ defprint_board(board):
+   forrowinboard:
+       print("".join(map(str,row)))
+ defmain():
+   #InputSudokupuzzleasa9x9grid
+   puzzle=[
+       [5,3,0,0,7,0,0,0,0],
+       [6,0,0,1,9,5,0,0,0],
+       [0,9,8,0,0,0,0,6,0],
+       [8,0,0,0,6,0,0,0,3],
+       [4,0,0,8,0,3,0,0,1],
+       [7,0,0,0,2,0,0,0,6],
+       [0,6,0,0,0,0,2,8,0],
+       [0,0,0,4,1,9,0,0,5],
+       [0,0,0,0,8,0,0,7,9]
+   ]
+   ifsolve_sudoku(puzzle):
+       print("Sudokupuzzlesolved:")
+       print_board(puzzle)
+   else:
+       print("Nosolutionexists.")
+ if__name__=="__main__":
+   main()
